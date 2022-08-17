@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-inline-block">
+    <h4>Depositories</h4>
+</div>
+<div id="depositories"></div>
+
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#create">Create new</button>
+
+
+<!--  (name=.., type of dep=.., type of money=.., amount of maney=..)-->
+<div class="modal fade" id="create" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New depository</h4>
+                <div id="err_create" class="bg-danger"></div>
+            </div>
+            <div class="modal-body">
+                <form name="create" action="#" method="post" onsubmit="return false">
+                    @Html.AntiForgeryToken()
+                    <!--Name-->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter name" name="name">
+                    </div>
+                    <!--type of depository-->
+                    <div class="col-auto my-1">
+                        <label class="mr-sm-2" for="tDep">Type</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="tDep">
+                            <option value="CARD" selected>Card</option>
+                            <option value="DEPOSIT">Deposite</option>
+                            <option value="CASH">Cash</option>
+                        </select>
+                    </div>
+                    <!--type of money-->
+                    <div class="col-auto my-1">
+                        <label class="mr-sm-2" for="tMoney">Currency</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="tMoney">
+                            <option value="BYN" selected>BYN</option>
+                            <option value="USD">USD</option>
+                            <option value="RUB">RUB</option>
+                            <option value="EUR">EUR</option>
+                        </select>
+                    </div>
+                    <!--amount of money-->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Amount of money" name="amount">
+                    </div>
+                    <br />
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10" style="display: flex;">
+                            <input type="button" value="Create" class="btn btn-success" id="button_create_depo" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="chart1">
+            <canvas id="Sp_CurMonth" width="250" height="250"></canvas>
+        </div>
+    </div>
+    <div class="col">
+        <div id="chart2">
+            <canvas id="Add_CurMonth" width="250" height="250"></canvas>
+        </div>
+    </div>
+    <div class="col">
+        <div id="chart3">
+            <canvas id="Sp_AllTime" width="250" height="250"></canvas>
+        </div>
+    </div>
+    <div class="col">
+        <div id="chart4">
+            <canvas id="Add_AllTime" width="250" height="250"></canvas>
+        </div>
+    </div>
+</div>
+
+@*@using System.Web.Optimization
+@Scripts.Render("~/Scripts/my/depository/charts_common.js")
+@Scripts.Render("~/Scripts/my/depository/table.js")
+@Scripts.Render("~/Scripts/my/depository/buttons_list.js")*@
+
+@section Scripts
+    {
+    <script src="~/js/my/depository/charts_common.js"></script>
+    <script src="~/js/my/depository/table.js"></script>
+    <script src="~/js/my/depository/buttons_list.js"></script>
+}
+
+
+
+

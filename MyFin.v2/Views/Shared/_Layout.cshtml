@@ -1,49 +1,188 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyFin.v2</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MyFin.v2.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/image.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="~/js/jquery-ui-1.13.2.min.js" type="text/javascript"></script>
+    <script src="~/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+    <script src="~/js/grid.locale-en.js" type="text/javascript"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.bundle.js" type="text/javascript"></script>
+    <script src="~/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/js/chart.min.js" type="text/javascript"></script>
+    <script src="~/js/jquery.cookie-1.4.1.min.js" type="text/javascript"></script>
+
+
+    <script async src="https://s.fx-w.io/widgets/exchange-rates/latest.js"></script>
+    <script async src="https://s.fx-w.io/widgets/currency-converter/latest.js"></script>
+
+    <style>
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: auto
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            padding: 15px;
+        }
+    </style>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyFin.v2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+            <img src="/image/logo.png" width="40" height="40" class="d-inline-block align-top" alt="">
+            Financial Assistant
+        </a>
+
+        @if (User.Claims.Count() != 0)
+        {
+            <a href="/Depository/List" class="btn btn-info" role="button"> Depositories <span class="badge"> <div id="dep_count"></div> </span></a>
+            <a href="/Credit/" class="btn btn-info" role="button">Credits <span class="badge"><div id="credit_count"></div></span></a>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="~/image/account.png" height="40" width="40">
+                    <a> @User.Identity.Name</a>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/Account/Logout">Logout</a>
+                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#settings">Settings</button>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        }
+        else
+        {
+            <a href="/Depository/List" class="btn btn-info disabled" role="button">Depositories</a>
+            <a href="/Credit/" class="btn btn-info disabled" role="button">Credits</a>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login">Login</button>
+        }
+    </nav>
+
+
+    <div class="container-fluid text-center">
+
+        <div class="row content bg-white">
+            <!--Financial widgets-->
+            <div class="col-sm-2 sidenav bg-light float-left">
+                <fxwidget-er inverse="false" amount="1" decimals="2" large="false" shadow="true" symbol="true" flag="true" changes="true" grouping="true" border="false" main-curr="BYN" sel-curr="RUB,USD,EUR," background-color="#9bddff" border-radius="0.35"></fxwidget-er>
+                <br />
+                <fxwidget-cc amount="100" decimals="2" large="false" shadow="true" symbol="false" grouping="true" border="false" from="USD" to="EUR" background-color="#89cff0" border-radius="0.35" pop-curr="BYN,RUB,USD,EUR"></fxwidget-cc>
+            </div>
+
+            <div class="col-sm-8 text-left">
+                @RenderBody()
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - MyFin.v2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!--my scripts-->
+    @*    @using System.Web.Optimization
+
+    @Scripts.Render("~/Scripts/my/common/badges.js")
+    @Scripts.Render("~/Scripts/my/account/settings_user.js")*@
+    @RenderSection("scripts", required: false)
+
+    @section Scripts
+        {
+        <script src="../js/my/common/badges.js"></script>
+        <script src="../js/my/account/settings_user.js"></script>
+    }
+        <script src="../js/my/common/badges.js"></script>
+        <script src="../js/my/account/settings_user.js"></script>
+
+
+
+        <!-- Settings -->
+        <div class="modal fade" id="settings" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h6 class="modal-title">Settings</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <!--*********************Rename******************-->
+                    <div class="modal-body">
+                        <kbd>Rename</kbd>
+                        <br />
+                        <p id="err_rename_user" class="bg-danger"></p>
+                        <form name="rename_user" action="#" method="post" onsubmit="return false">
+                            @Html.AntiForgeryToken()
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Name</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="@User.Identity.Name" name="name">
+                                <input type="button" value="Rename" class="btn btn-outline-danger" id="button_rename_user" />
+                            </div>
+                        </form>
+
+                        <!--Change password-->
+                        <kbd>Change password</kbd>
+                        <p id="err_ch_pass" class="bg-danger"></p>
+                        <form name="change_password" action="#" method="post" onsubmit="return false">
+
+                            @Html.AntiForgeryToken()
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Old</span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="" name="old_password">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">New</span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="" name="new_password">
+                                <input type="button" value="Confirm" class="btn btn-outline-danger" id="button_ch_pass" />
+                            </div>
+                        </form>
+
+
+                        <!--Remove form-->
+                        <kbd>Remove account</kbd>
+                        <p id="err_remove_user" class="bg-danger"></p>
+                        <form name="remove_user" action="#" method="post" onsubmit="return false">
+                            @Html.AntiForgeryToken()
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Password</span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="" name="password">
+                                <input type="button" value="Remove" class="btn btn-outline-danger" formaction="Account/Remove" id="button_remove_user" />
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+    </body>
+    </html>

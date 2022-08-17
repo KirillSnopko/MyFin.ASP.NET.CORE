@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-3">
+        <div id="titleDep"></div>
+    </div>
+
+    <div class="col">
+
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Settings
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#rename">Rename</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#operation">New operation</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<div class="row">
+    <div class="col">
+        <div id="history"></div>
+
+        <!--for grouping-->
+        <span class="badge badge-primary">Group by</span>
+        <div class="btn-group">
+            <select id="chngroup" class="form-select" style="width:200px; display:inline" title="grouping:">
+                <option value="category">Category</option>
+                <option value="date">Date</option>
+                <option value="clear" selected="selected">Clear</option>
+            </select>
+        </div>
+
+        <!--jqGrid table-->
+        <table id="jqg"></table>
+        <div id="jpager"></div>
+
+        <!--Excel-->
+        <button class="btn btn-success" id="Excel">Export to Excel</button>
+    </div>
+    <div class="col">
+        <span class="badge badge-primary">Current month</span>
+        <div id="doughnut">
+            <canvas id="myChartDoughnut" width="400" height="400"></canvas>
+        </div>
+    </div>
+</div>
+<br />
+
+
+@*@using System.Web.Optimization
+@Scripts.Render("~/Scripts/my/depository/charts_current.js")
+@Scripts.Render("~/Scripts/my/depository/jqGrid.js")
+@Scripts.Render("~/Scripts/my/common/Excel.js")
+@Scripts.Render("~/Scripts/my/depository/buttons_details.js")*@
+
+@section Scripts
+    {
+    <script src="~/js/my/depository/charts_current.js"></script>
+    <script src="~/js/my/depository/jqGrid.js"></script>
+    <script src="~/js/my/common/Excel.js"></script>
+    <script src="~/js/my/depository/buttons_details.js"></script>
+}
+
+
+    <!-- Rename -->
+    <div class="modal fade" id="rename" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New name</h4>
+                    <p id="err_rename_depo" class="bg-danger"></p>
+                </div>
+                <div class="modal-body">
+                    <form name="rename_depo" action="#" method="post" onsubmit="return false">
+                        @Html.AntiForgeryToken()
+                        <!--new name-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">New name</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" name="name">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10" style="display: flex;">
+                                <input type="submit" value="Save" class="btn btn-success" id="button_rename_depo" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  (idDepository=.., isSpending=.., amountOfMoney=.., comment=.., category)-->
+    <div class="modal fade" id="operation" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">New financial operation</h4>
+                    <p id="err_new_operation" class="bg-danger"></p>
+                </div>
+                <div class="modal-body">
+                    <form name="new_operation" action="#" method="post" onsubmit="return false">
+                        @Html.AntiForgeryToken()
+
+                        <!--amount of money-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">0.00</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" name="amountOfMoney" required>
+                        </div>
+
+
+
+                        <!--Comment for operation-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Text</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Enter comment" name="comment" required>
+                        </div>
+                        <!--choosing between adding and spending-->
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="customRadio" name="isSpending" value="false" checked>
+                            <label class="custom-control-label" for="customRadio">Add</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="customRadio2" name="isSpending" value="true">
+                            <label class="custom-control-label" for="customRadio2">Spend</label>
+                        </div>
+                        <div id="select_category"></div>
+
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10" style="display: flex;">
+                                <input type="button" value="Push" class="btn btn-success" id="button_operation_depo" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" id="operation_footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Delete -->
+    <div class="modal fade" id="delete" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <strong class="modal-title">Please, confirm this action.</strong>
+                    <p id="err_delete_depo" class="bg-danger"></p>
+                </div>
+                <div class="modal-body">
+                    <form name="delete_depo" action="#" method="post" onsubmit="return false">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10" style="display: flex;">
+                                <input type="button" value="Confirm" class="btn btn-danger" id="button_delete_depo" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
