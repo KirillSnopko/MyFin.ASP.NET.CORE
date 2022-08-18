@@ -16,10 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 #region Identity&&Context
 builder.Services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerIdentity")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(i => i.Password.RequiredUniqueChars = 0).AddEntityFrameworkStores<IdentityContext>();
 builder.Services.AddDbContext<FinContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Finance")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerFinance")));
 #endregion
 
 
