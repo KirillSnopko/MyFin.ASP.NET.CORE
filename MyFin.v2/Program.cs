@@ -14,12 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-#region Identity&&Context
+#region SQLServer context
+//builder.Services.AddDbContext<IdentityContext>(options =>
+//                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerIdentity")));
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>(i => i.Password.RequiredUniqueChars = 0).AddEntityFrameworkStores<IdentityContext>();
+//builder.Services.AddDbContext<FinContext>(options =>
+//                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerFinance")));
+#endregion
+
+#region MySQL context
 builder.Services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerIdentity")));
+                options.UseMySql(builder.Configuration.GetConnectionString("MySQLTest"), new MySqlServerVersion(new Version(8, 0, 30))));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(i => i.Password.RequiredUniqueChars = 0).AddEntityFrameworkStores<IdentityContext>();
 builder.Services.AddDbContext<FinContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerFinance")));
+    options.UseMySql(builder.Configuration.GetConnectionString("MySQLTest"), new MySqlServerVersion(new Version(8, 0, 30))));
 #endregion
 
 
