@@ -3,17 +3,26 @@
     $(window).on('load', function () {
         $.get("/Depository/GetData", {},
             function (credits) {
-                var table = $('<table class="table table-striped"><tr><th>Name</th><th>Type</th><th>Value</th><th>Currency</th><th></th></tr>');
+                var table = '<table class="table table-striped"><tr><th>Name</th><th>Type</th><th>Value</th><th>Currency</th><th></th></tr>';
                 $(credits).each(function (index, item) {
                     var id = item.id;
                     var name = item.name;
                     var type = item.type;
                     var value = item.value;
                     var currency = item.currency;
+                    table += '<tr class="table-default"><td><p class="fw-bold text-primary">' + name + '</p></td>';
+                    switch (type) {
+                        case "CARD": table += '<td> <img src="/image/card.png" width="40" height="40"  alt=""></td>';
+                            break;
+                        case "DEPOSIT": table += '<td> <img src="/image/deposite.png" width="40" height="40"  alt=""></td>';
+                            break;
+                        case "CASH": table += '<td> <img src="/image/cash.png" width="40" height="40"  alt=""></td>';
+                            break;
+                    }
 
-                    table.append('<tr class="table-default"><td>' + name + '</td><td>' + type + '</td><td><strong>' + value + '</strong></td > <td>' + currency + '</td><td>' + button(id) + '</td></tr >');
+                    table += '<td><strong>' + value + '</strong></td > <td>' + currency + '</td><td>' + button(id) + '</td></tr>';
                 });
-                table.append('</table>');
+                table.concat('</table>');
                 $('#depositories').html(table);
 
 

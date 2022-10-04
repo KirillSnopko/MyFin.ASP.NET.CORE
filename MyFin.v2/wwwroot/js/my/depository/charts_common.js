@@ -45,7 +45,8 @@
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: 'Expenses for the current month'
+                                    text: 'Expenses for the current month',
+                                    color: "blue"
                                 }
                             }
                         }
@@ -82,7 +83,8 @@
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: 'Addition for the current month'
+                                    text: 'Addition for the current month',
+                                    color: "blue"
                                 }
                             }
                         }
@@ -122,7 +124,8 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Expenses for all time'
+                                text: 'Expenses for all time',
+                                color: "blue"
                             }
                         }
                     }
@@ -159,7 +162,8 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Addition for all time'
+                                text: 'Addition for all time',
+                                color: "blue"
                             }
                         }
                     }
