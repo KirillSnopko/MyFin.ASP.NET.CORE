@@ -50,8 +50,9 @@ namespace MyFin.v2.Controllers
             if (response.status == 200)
             {
                 await Authenticate(response.message);
+                return Json(new { status = 200 });
             }
-            return Json(new { status = 200 });
+            return Json(response);
         }
 
         [Authorize]
@@ -122,21 +123,6 @@ namespace MyFin.v2.Controllers
             accountService.logout();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
-
-        /*
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            if (filterContext.Exception != null)
-            {
-                var response = new { status = 509, message = filterContext.Exception.Message };
-                filterContext.Result = new JsonResult()
-                {
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                    Data = response
-                };
-                filterContext.ExceptionHandled = true;
-            }
-        }*/
 
     }
 }

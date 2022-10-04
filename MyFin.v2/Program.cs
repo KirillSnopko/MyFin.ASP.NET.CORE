@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,6 @@ using MyFin.v2.Models.services.ifaces;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Add services to the container.
 #region SQLServer context
 //builder.Services.AddDbContext<IdentityContext>(options =>
 //                options.UseSqlServer(builder.Configuration.GetConnectionString("DockerIdentity")));
@@ -24,10 +24,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region MySQL context
 builder.Services.AddDbContext<IdentityContext>(options =>
-                options.UseMySql(builder.Configuration.GetConnectionString("MySQLTest"), new MySqlServerVersion(new Version(8, 0, 30))));
+                options.UseMySql(builder.Configuration.GetConnectionString("MySQLIdentity"), new MySqlServerVersion(new Version(8, 0, 30))));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(i => i.Password.RequiredUniqueChars = 0).AddEntityFrameworkStores<IdentityContext>();
+
 builder.Services.AddDbContext<FinContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("MySQLTest"), new MySqlServerVersion(new Version(8, 0, 30))));
+    options.UseMySql(builder.Configuration.GetConnectionString("MySQLWork"), new MySqlServerVersion(new Version(8, 0, 30))));
 #endregion
 
 

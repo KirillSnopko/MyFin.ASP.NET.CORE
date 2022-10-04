@@ -54,7 +54,7 @@ namespace MyFin.v2.Models.services
             }
             else
             {
-                return new Response { status = 400, message = "invalid input" };
+                return new Response { status = 400, message =result.Errors.First().Description };
             }
         }
 
