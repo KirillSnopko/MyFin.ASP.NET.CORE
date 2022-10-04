@@ -47,6 +47,12 @@
                                     display: true,
                                     text: 'Expenses for the current month',
                                     color: "blue"
+                                },
+                                legend: {
+                                    labels: {
+                                        color: "blue",
+                                        fontSize: 18
+                                    }
                                 }
                             }
                         }
@@ -85,6 +91,12 @@
                                     display: true,
                                     text: 'Addition for the current month',
                                     color: "blue"
+                                },
+                                legend: {
+                                    labels: {
+                                        color: "blue",
+                                        fontSize: 18
+                                    }
                                 }
                             }
                         }
@@ -126,6 +138,12 @@
                                 display: true,
                                 text: 'Expenses for all time',
                                 color: "blue"
+                            },
+                            legend: {
+                                labels: {
+                                    color: "blue",
+                                    fontSize: 18
+                                }
                             }
                         }
                     }
@@ -164,6 +182,12 @@
                                 display: true,
                                 text: 'Addition for all time',
                                 color: "blue"
+                            },
+                            legend: {
+                                labels: {
+                                    color: "blue",
+                                    fontSize: 18
+                                }
                             }
                         }
                     }
